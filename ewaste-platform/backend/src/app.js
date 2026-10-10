@@ -48,6 +48,23 @@ app.use(cookieParser());
 // Serve Static Uploads
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
+// Root & Favicon Handlers
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'online',
+    service: 'E-Waste Intelligence & Circular Recovery API',
+    endpoints: {
+      health: '/health',
+      auth: '/api/auth',
+      cases: '/api/cases',
+      admin: '/api/admin',
+      chat: '/api/chat'
+    }
+  });
+});
+
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
 // Health Check Endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
