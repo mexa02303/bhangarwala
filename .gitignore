@@ -1,0 +1,31 @@
+# Node dependencies
+node_modules/
+**/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment files and credentials
+.env
+*.env
+.env.*
+!.env.example
+!**/.env.example
+
+# Uploads
+backend/uploads/*
+**/uploads/*
+!**/uploads/.gitkeep
+
+# Build artifacts
+dist/
+**/dist/
+build/
+.vite/
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
