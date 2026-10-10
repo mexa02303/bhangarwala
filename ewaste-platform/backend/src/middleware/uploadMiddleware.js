@@ -1,15 +1,22 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 
-const uploadDir = path.join(__dirname, '../../uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+const isServerless = !!process.env.VERCEL;
+const uploadDir = isServerless ? path.join(os.tmpdir(), 'uploads') : path.join(__dirname, '../../uploads');
+
+try {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch (err) {
+  // Ignored in read-only environments
 }
 
 // Storage configuration based on STORAGE_PROVIDER
 let storage;
-if ((process.env.STORAGE_PROVIDER || 'local').toLowerCase() === 's3') {
+if ((process.env.STORAGE_PROVIDER || 'local').toLowerCase() === 's3' || isServerless) {
   storage = multer.memoryStorage();
 } else {
   storage = multer.diskStorage({
